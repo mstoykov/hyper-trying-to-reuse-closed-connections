@@ -1,0 +1,6 @@
+star.example.com.crt
+star.example.com.key
+star.example.com.req
+ca.crt
+ca.key
+dhparam.pem

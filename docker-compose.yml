@@ -1,0 +1,27 @@
+version: '2'
+services:
+  server:
+    image: nginx:1.12
+    volumes:
+     - ./nginx.conf:/etc/nginx/nginx.conf
+     - ./star.example.com.crt:/etc/ssl/certs/star.example.com.crt
+     - ./star.example.com.key:/etc/ssl/private/star.example.com.key
+     - ./dhparam.pem:/etc/ssl/certs/dhparam.pem
+    networks:
+      mynet:
+        ipv4_address: 172.129.0.5
+    command: "nginx -g 'daemon off;'"
+  test:
+    build: "."
+    command: "python3 /tmp/test.py"
+    depends_on:
+     - server
+    networks:
+      mynet:
+        ipv4_address: 172.129.0.6
+networks:
+  mynet:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.129.0.0/24
